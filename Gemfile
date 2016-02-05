@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'curation_concerns-models', path: './curation_concerns-models'
+gem 'active-fedora', '9.7.1'
 
 group :development, :test do
   gem 'rubocop', require: false
