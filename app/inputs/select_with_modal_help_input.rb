@@ -31,6 +31,13 @@ class SelectWithModalHelpInput < MultiValueWithHelpInput
       @rendered_first_element = true
 
       html_options.merge!(options.slice(:include_blank))
-      template.select_tag(attribute_name, template.options_for_select(select_options, value), html_options)
+      render_options = select_options
+      if value.present? && render_options.find { |opt| opt[1] == value }.nil?
+        force_option = RightsService.select_inactive_options.find { |opt| opt[1] == value } || [value, value]
+        html_options[:class] << "force-select"
+        html_options[:'data-force-label'] = force_option[0]
+        html_options[:'data-force-value'] = force_option[1]
+      end
+      template.select_tag(attribute_name, template.options_for_select(render_options, value), html_options)
     end
 end
